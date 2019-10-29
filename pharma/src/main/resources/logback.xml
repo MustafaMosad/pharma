@@ -8,8 +8,7 @@
 	<appender name="STDOUT"
 		class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern> %d{HH:mm:ss.SSS} [%thread] ReqId:[%X{Slf4jMDCFilter.UUID}]
-				UserName:[%X{Slf4jMDCFilter.Username}] %-5level %logger{36} - %msg%n
+			<Pattern> %d{HH:mm:ss.SSS} [%thread] ReqId:[%X{Slf4jMDCFilter.UUID}] UserName:[%X{Slf4jMDCFilter.Username}] %-5level %logger{36} - %msg%n
 			</Pattern>
 		</layout>
 	</appender>
@@ -32,8 +31,7 @@
 		</rollingPolicy>
 
 		<encoder>
-			<Pattern> %d{HH:mm:ss.SSS} [%thread] ReqId:[%X{Slf4jMDCFilter.UUID}]
-				UserName:[%X{Slf4jMDCFilter.Username}] %-5level %logger{36} - %msg%n
+			<Pattern> %d{HH:mm:ss.SSS} [%thread] ReqId:[%X{Slf4jMDCFilter.UUID}] UserName:[%X{Slf4jMDCFilter.Username}] %-5level %logger{36} - %msg%n
 			</Pattern>
 		</encoder>
 	</appender>
