@@ -69,7 +69,7 @@ public class RegistrationService {
 
 		ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
-		if (!roleType.equals(RoleType.SUPER)) {
+		if (!roleType.equals(RoleType.ROLE_SUPER)) {
 
 			// sending confirmation email
 			SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -78,12 +78,14 @@ public class RegistrationService {
 			mailMessage.setText(confirmationMailMessage + confirmationUrl + confirmationToken.getConfirmationToken());
 
 			emailSenderService.sendEmail(mailMessage);
+
 		} else {
 			user.setEnabled(true);
 		}
 
 		userRepo.save(user);
 		confirmationTokenRepository.save(confirmationToken);
+
 		logger.info("End of saveUser");
 
 	}

@@ -72,7 +72,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity webSecurity) {
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api/student/" + authenticationPath)
+		webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api" + authenticationPath)
 				.antMatchers(HttpMethod.OPTIONS, "/**").and().ignoring().antMatchers("/h2/**/**");// Should not be in
 																									// Production!;
 	}

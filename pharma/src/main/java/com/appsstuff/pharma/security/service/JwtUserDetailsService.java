@@ -34,7 +34,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
 
 		}
-		logger.info("End of loadUserByUsername");
+		logger.info("End of loadUserByUsername {} ", user.getRoles().iterator().next().getName());
 
 		return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(),
 				user.getRoles().iterator().next().getName());

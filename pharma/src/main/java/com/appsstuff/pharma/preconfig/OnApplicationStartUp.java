@@ -56,7 +56,7 @@ public class OnApplicationStartUp {
 		registrationForm.setEmail("admin@gmail.com");
 		registrationForm.setPassword("admin123");
 
-		registrationService.saveUser(registrationForm, RoleType.SUPER);
+		registrationService.saveUser(registrationForm, RoleType.ROLE_SUPER);
 	}
 
 	/**
@@ -69,11 +69,11 @@ public class OnApplicationStartUp {
 
 		if (roles == null || roles.isEmpty()) {
 			logger.debug("No Roles In a table ");
-			roleRepo.save(new Role(RoleType.USER.name()));
+			roleRepo.save(new Role(RoleType.ROLE_USER.name()));
 			logger.debug("Role .. ROLE_USER inserted");
-			roleRepo.save(new Role(RoleType.ADMIN.name()));
+			roleRepo.save(new Role(RoleType.ROLE_ADMIN.name()));
 			logger.debug("Role .. ROLE_ADMIN inserted");
-			roleRepo.save(new Role(RoleType.SUPER.name()));
+			roleRepo.save(new Role(RoleType.ROLE_SUPER.name()));
 			logger.debug("Role .. ROLE_SUPER inserted");
 
 		}

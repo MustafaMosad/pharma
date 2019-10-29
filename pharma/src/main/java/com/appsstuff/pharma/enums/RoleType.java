@@ -2,5 +2,5 @@ package com.appsstuff.pharma.enums;
 
 public enum RoleType {
 
-	SUPER, ADMIN, USER;
+	ROLE_SUPER, ROLE_ADMIN, ROLE_USER;
 }

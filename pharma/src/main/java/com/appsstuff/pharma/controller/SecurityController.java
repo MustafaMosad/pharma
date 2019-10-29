@@ -61,16 +61,16 @@ public class SecurityController {
 	public ResponseEntity<?> registerUser(@RequestBody @Valid RegistrationForm registrationForm)
 			throws EmailAlreadyExistException {
 
-		registrationService.saveUser(registrationForm, RoleType.USER);
+		registrationService.saveUser(registrationForm, RoleType.ROLE_USER);
 		return ResponseEntity.ok().build();
 	}
 
-	@RequestMapping(value = "/registration-user", method = RequestMethod.POST)
-	@PreAuthorize("hasRole=SUPER")
+	@RequestMapping(value = "/registration-admin", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_SUPER')")
 	public ResponseEntity<?> registerAdmin(@RequestBody @Valid RegistrationForm registrationForm)
 			throws EmailAlreadyExistException {
 
-		registrationService.saveUser(registrationForm, RoleType.ADMIN);
+		registrationService.saveUser(registrationForm, RoleType.ROLE_ADMIN);
 		return ResponseEntity.ok().build();
 	}
 
