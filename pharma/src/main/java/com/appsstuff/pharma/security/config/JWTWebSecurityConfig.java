@@ -17,9 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.Three2one.elearning.security.model.ExceptionHandlerFilter;
-import com.Three2one.elearning.security.model.JwtTokenAuthorizationOncePerRequestFilter;
-import com.Three2one.elearning.security.model.JwtUnAuthorizedResponseAuthenticationEntryPoint;
+import com.appsstuff.pharma.security.filter.ExceptionHandlerFilter;
+import com.appsstuff.pharma.security.filter.JwtTokenAuthorizationOncePerRequestFilter;
+import com.appsstuff.pharma.security.filter.JwtUnAuthorizedResponseAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity

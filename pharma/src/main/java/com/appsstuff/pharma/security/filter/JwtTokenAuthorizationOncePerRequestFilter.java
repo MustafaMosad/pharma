@@ -1,9 +1,6 @@
 package com.appsstuff.pharma.security.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,20 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.Three2one.elearning.exception.custom.AuthenticationException;
-import com.Three2one.elearning.exception.model.ExceptionResponse;
-import com.Three2one.elearning.security.util.JwtTokenUtil;
+import com.appsstuff.pharma.exception.custom.AuthenticationException;
+import com.appsstuff.pharma.security.util.JwtTokenUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -90,18 +83,4 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 		chain.doFilter(request, response);
 	}
 
-	@ExceptionHandler(AuthenticationException.class)
-	public ResponseEntity<ExceptionResponse> handleAuthenticationError(AuthenticationException ex) {
-
-		logger.info("Start of handleAuthenticationError");
-		List<String> messages = new ArrayList<String>();
-		messages.add(ex.getMessage());
-
-		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.UNAUTHORIZED.value(),
-				HttpStatus.UNAUTHORIZED.name(), messages);
-		logger.info("End of handleAuthenticationError");
-
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
-
-	}
 }

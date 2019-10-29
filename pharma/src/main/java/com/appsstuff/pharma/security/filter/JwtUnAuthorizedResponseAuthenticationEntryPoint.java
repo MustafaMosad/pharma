@@ -16,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.Three2one.elearning.exception.model.ExceptionResponse;
+import com.appsstuff.pharma.exception.model.ExceptionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
