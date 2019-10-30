@@ -2,15 +2,11 @@ package com.appsstuff.pharma.controller;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -20,28 +16,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appsstuff.pharma.dto.RegistrationForm;
-import com.appsstuff.pharma.enums.RoleType;
 import com.appsstuff.pharma.exception.custom.AuthenticationException;
-import com.appsstuff.pharma.exception.custom.EmailAlreadyExistException;
-import com.appsstuff.pharma.exception.custom.RegisterationConfirmationTokenNotExist;
 import com.appsstuff.pharma.security.dto.req.JwtTokenRequest;
 import com.appsstuff.pharma.security.dto.res.JwtTokenResponse;
 import com.appsstuff.pharma.security.service.JwtUserDetailsService;
 import com.appsstuff.pharma.security.util.JwtTokenUtil;
-import com.appsstuff.pharma.service.RegistrationConfirmationService;
-import com.appsstuff.pharma.service.RegistrationService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api")
-public class SecurityController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+@RequestMapping("/user")
+@Api(value = "Login Controller", description = "This Controller contains APIs for Authnticate User and generate token.")
+public class LoginController {
 
-	@Value("${jwt.http.request.header}")
-	private String tokenHeader;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -51,41 +44,13 @@ public class SecurityController {
 
 	@Autowired
 	private UserDetailsService jwtUserDetailsService;
-	@Autowired
-	private RegistrationService registrationService;
-
-	@Autowired
-	private RegistrationConfirmationService registrationConfirmationService;
-
-	@RequestMapping(value = "/registration-user", method = RequestMethod.POST)
-	public ResponseEntity<?> registerUser(@RequestBody @Valid RegistrationForm registrationForm)
-			throws EmailAlreadyExistException {
-
-		registrationService.saveUser(registrationForm, RoleType.ROLE_USER);
-		return ResponseEntity.ok().build();
-	}
-
-	@RequestMapping(value = "/registration-admin", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_SUPER')")
-	public ResponseEntity<?> registerAdmin(@RequestBody @Valid RegistrationForm registrationForm)
-			throws EmailAlreadyExistException {
-
-		registrationService.saveUser(registrationForm, RoleType.ROLE_ADMIN);
-		return ResponseEntity.ok().build();
-	}
-
-	@RequestMapping(value = "/confirm-registration/{accountConfirmationToken}", method = RequestMethod.POST)
-	public ResponseEntity<?> confirmRegistration(@RequestParam String accountConfirmationToken)
-			throws RegisterationConfirmationTokenNotExist {
-
-		logger.info(accountConfirmationToken);
-		registrationConfirmationService.activateUseraccount(accountConfirmationToken);
-
-		return ResponseEntity.ok().build();
-
-	}
 
 	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
+	@ApiOperation(value = "Login to the system as super , admin or regular user", response = JwtTokenResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully logged in and token generated"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found") })
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
 			throws AuthenticationException {
 

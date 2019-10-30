@@ -62,8 +62,8 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().exceptionHandling()
 				.authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/resources/**", "/api/student/registration", "/v2/api-docs", "/configuration/ui",
-						"/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**")
+				.antMatchers("/resources/**", "/user/**", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+						"/configuration/security", "/swagger-ui.html", "/webjars/**")
 				.permitAll().anyRequest().authenticated();
 
 		httpSecurity.addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class);
@@ -72,8 +72,9 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity webSecurity) {
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, "/api" + authenticationPath)
-				.antMatchers(HttpMethod.OPTIONS, "/**").and().ignoring().antMatchers("/h2/**/**");// Should not be in
-																									// Production!;
+		webSecurity.ignoring().antMatchers(HttpMethod.OPTIONS, "/**").and().ignoring().antMatchers("/h2/**/**");// Should
+																												// not
+																												// be in
+																												// Production!;
 	}
 }

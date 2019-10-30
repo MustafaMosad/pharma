@@ -19,6 +19,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.appsstuff.pharma.exception.custom.AuthenticationException;
+import com.appsstuff.pharma.exception.custom.EmailAlreadyExistException;
+import com.appsstuff.pharma.exception.custom.RegisterationConfirmationTokenNotExist;
 import com.appsstuff.pharma.exception.model.ExceptionResponse;
 
 @ControllerAdvice
@@ -92,6 +94,37 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		logger.info("End of handleAccessDenied");
 
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
+
+	}
+
+	@ExceptionHandler(RegisterationConfirmationTokenNotExist.class)
+	public ResponseEntity<ExceptionResponse> handleRegisterationConfirmationTokenNotExist(
+			RegisterationConfirmationTokenNotExist ex) {
+
+		logger.info("Start of RegisterationConfirmationTokenNotExist");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getErrorMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.NOT_FOUND.value(),
+				HttpStatus.NOT_FOUND.name(), messages);
+		logger.info("End of RegisterationConfirmationTokenNotExist");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler(EmailAlreadyExistException.class)
+	public ResponseEntity<ExceptionResponse> handleEmailAlreadyExistException(EmailAlreadyExistException ex) {
+
+		logger.info("Start of EmailAlreadyExistException");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getErrorMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.name(), messages);
+		logger.info("End of EmailAlreadyExistException");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
 
 	}
 

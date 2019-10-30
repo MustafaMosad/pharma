@@ -11,7 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.appsstuff.pharma.dto.RegistrationForm;
+import com.appsstuff.pharma.dto.req.RegistrationForm;
 import com.appsstuff.pharma.enums.RoleType;
 import com.appsstuff.pharma.exception.custom.EmailAlreadyExistException;
 import com.appsstuff.pharma.repo.RoleRepository;
@@ -53,8 +53,8 @@ public class OnApplicationStartUp {
 	private void createSuperUser() throws EmailAlreadyExistException {
 
 		RegistrationForm registrationForm = new RegistrationForm();
-		registrationForm.setEmail("admin@gmail.com");
-		registrationForm.setPassword("admin123");
+		registrationForm.setEmail("super@gmail.com");
+		registrationForm.setPassword("super123");
 
 		registrationService.saveUser(registrationForm, RoleType.ROLE_SUPER);
 	}

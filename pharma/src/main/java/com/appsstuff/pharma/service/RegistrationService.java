@@ -12,7 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.appsstuff.pharma.dto.RegistrationForm;
+import com.appsstuff.pharma.dto.req.RegistrationForm;
 import com.appsstuff.pharma.enums.RoleType;
 import com.appsstuff.pharma.exception.custom.EmailAlreadyExistException;
 import com.appsstuff.pharma.repo.ConfirmationTokenRepository;
@@ -67,26 +67,37 @@ public class RegistrationService {
 		roles.add(roleRepo.findByName(roleType.name()));
 		user.setRoles(roles);
 
-		ConfirmationToken confirmationToken = new ConfirmationToken(user);
-
 		if (!roleType.equals(RoleType.ROLE_SUPER)) {
 
-			// sending confirmation email
-			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(user.getEmail());
-			mailMessage.setSubject(confirmationUrl);
-			mailMessage.setText(confirmationMailMessage + confirmationUrl + confirmationToken.getConfirmationToken());
-
-			emailSenderService.sendEmail(mailMessage);
+			sendConfirmationMail(user);
 
 		} else {
 			user.setEnabled(true);
 		}
 
 		userRepo.save(user);
-		confirmationTokenRepository.save(confirmationToken);
 
 		logger.info("End of saveUser");
+
+	}
+
+	/**
+	 * 
+	 * @param user
+	 */
+	private void sendConfirmationMail(User user) {
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+		// sending confirmation email
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo(user.getEmail());
+		mailMessage.setSubject(confirmationUrl);
+		mailMessage
+				.setText(confirmationMailMessage + "\n" + confirmationUrl + confirmationToken.getConfirmationToken());
+
+		emailSenderService.sendEmail(mailMessage);
+
+		confirmationTokenRepository.save(confirmationToken);
 
 	}
 
