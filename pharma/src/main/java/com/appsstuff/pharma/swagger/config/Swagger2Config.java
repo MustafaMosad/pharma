@@ -7,11 +7,13 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -40,7 +42,8 @@ public class Swagger2Config {
 				.securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.newArrayList(apiKey()))
 				.useDefaultResponseMessages(false);
 
-		docket = docket.select().paths(PathSelectors.regex("/.*")).build();
+		docket = docket.select().apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+				.paths(PathSelectors.regex("/.*")).build();
 		// watch.stop();
 		return docket;
 	}
@@ -57,7 +60,7 @@ public class Swagger2Config {
 	}
 
 	private SecurityContext securityContext() {
-		return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/api/.*"))
+		return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/user/.*"))
 				.build();
 	}
 

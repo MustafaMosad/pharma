@@ -69,13 +69,13 @@ public class RegistrationService {
 
 		if (!roleType.equals(RoleType.ROLE_SUPER)) {
 
+			userRepo.save(user);
 			sendConfirmationMail(user);
 
 		} else {
 			user.setEnabled(true);
+			userRepo.save(user);
 		}
-
-		userRepo.save(user);
 
 		logger.info("End of saveUser");
 

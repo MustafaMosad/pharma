@@ -20,7 +20,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.appsstuff.pharma.exception.custom.AuthenticationException;
 import com.appsstuff.pharma.exception.custom.EmailAlreadyExistException;
+import com.appsstuff.pharma.exception.custom.EmailNotFoundException;
 import com.appsstuff.pharma.exception.custom.RegisterationConfirmationTokenNotExist;
+import com.appsstuff.pharma.exception.custom.ResetTokenExpiredException;
+import com.appsstuff.pharma.exception.custom.ResetTokenNotFoundException;
 import com.appsstuff.pharma.exception.model.ExceptionResponse;
 
 @ControllerAdvice
@@ -110,6 +113,51 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		logger.info("End of RegisterationConfirmationTokenNotExist");
 
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler(ResetTokenNotFoundException.class)
+	public ResponseEntity<ExceptionResponse> handleResetTokenNotFoundException(ResetTokenNotFoundException ex) {
+
+		logger.info("Start of ResetTokenNotFoundException");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getErrorMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.NOT_FOUND.value(),
+				HttpStatus.NOT_FOUND.name(), messages);
+		logger.info("End of ResetTokenNotFoundException");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ResponseEntity<ExceptionResponse> handleEmailNotFoundException(EmailNotFoundException ex) {
+
+		logger.info("Start of EmailNotFoundException");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getErrorMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.NOT_FOUND.value(),
+				HttpStatus.NOT_FOUND.name(), messages);
+		logger.info("End of EmailNotFoundException");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler(ResetTokenExpiredException.class)
+	public ResponseEntity<ExceptionResponse> handleResetTokenExpiredException(ResetTokenExpiredException ex) {
+
+		logger.info("Start of ResetTokenExpiredException");
+		List<String> messages = new ArrayList<String>();
+		messages.add(ex.getErrorMessage());
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), HttpStatus.BAD_REQUEST.value(),
+				HttpStatus.BAD_REQUEST.name(), messages);
+		logger.info("End of ResetTokenExpiredException");
+
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 
 	}
 
