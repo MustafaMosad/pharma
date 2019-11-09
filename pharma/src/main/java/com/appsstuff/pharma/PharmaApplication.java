@@ -9,11 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class PharmaApplication {
 
 	public static void main(String[] args) {
-		try {
-			SpringApplication.run(PharmaApplication.class, args);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		SpringApplication.run(PharmaApplication.class, args);
 
 	}
 
