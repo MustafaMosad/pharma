@@ -50,7 +50,7 @@ public class Swagger2Config {
 
 	private ApiInfo apiEndPointsInfo() {
 		return new ApiInfoBuilder().title("Spring Boot REST API").description("Alinma Express REST API Documentation")
-				.contact(new Contact("Mostafa Mosad", "www.github.com/mustafamosad", "mustafamosad57@gmail.com"))
+				.contact(new Contact("Mostafa Mosad", "www.github.com/mustafamosad", ""))
 				.license("Apache 2.0").licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html").version("1.0.0")
 				.build();
 	}
